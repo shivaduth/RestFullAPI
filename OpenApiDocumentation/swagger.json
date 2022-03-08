@@ -1,0 +1,212 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Student Fees API",
+        "description": "A Simple Express Student Fees API",
+        "version": "1.0.0",
+        "contact": {
+            "name": "shivaduth",
+            "email": "shivaduthjakore@gmail.com"
+        }
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3035"
+        }
+    ],
+    "components": {
+        "schemas": {
+            "Student": {
+                "type": "object",
+                "required": [
+                    "student_id",
+                    "firstName",
+                    "lastName",
+                    "student_std",
+                    "student_fees",
+                    "student_paid"
+                ],
+                "properties": {
+                    "student_id": {
+                        "type": "string",
+                        "description": "Student id"
+                    },
+                    "firstName": {
+                        "type": "string",
+                        "description": "First Name Of Student"
+                    },
+                    "lastName": {
+                        "type": "string",
+                        "description": "Last Name Of Student"
+                    },
+                    "student_std": {
+                        "type": "string",
+                        "description": "student standard"
+                    },
+                    "student_fees": {
+                        "type": "string",
+                        "description": "student fees"
+                    },
+                    "student_paid": {
+                        "type": "string",
+                        "description": "Student fees paid"
+                    }
+                },
+                "example": {
+                    "student_id": "1",
+                    "firstName": "shivaduth",
+                    "lastName": "Jakore",
+                    "student_std": "1",
+                    "student_fees": "1000000",
+                    "student_paid": "50000"
+                }
+            }
+        }
+    },
+    "paths": {
+        "/user/create-user": {
+            "post": {
+                "tags": [
+                    "Create student record"
+                ],
+                "summary": "saves data to database",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Student"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Student detail successfully saved ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Student"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            }
+        },
+        "/user/allstudentdata": {
+            "get": {
+                "tags": [
+                    "All Students Data"
+                ],
+                "summary": "return all student Records",
+                "responses": {
+                    "200": {
+                        "description": "Student details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Student"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Data not found"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/user/findone/{student_id}": {
+            "get": {
+                "tags": [
+                    "Specific student data"
+                ],
+                "summary": "return student details of student Id",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "student_id",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "required": true,
+                            "descrption": "The student ID"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The Student Detail By Student ID",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Student"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Student details Not Found"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/user/delete/{student_id}": {
+            "delete": {
+                "tags": [
+                    "Delete student data"
+                ],
+                "summary": "delete student detail with student ID",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "student_id",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "required": true,
+                            "descrption": "The student ID"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The Student detail deleted ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Student"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Student details Not Found"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        }
+    }
+}
